@@ -52,3 +52,28 @@ func (m *Repository) About(w http.ResponseWriter, r *http.Request) {
 	})
 
 }
+
+//Reservation renders the make a reservation page and displays form
+func (m *Repository) Reservation(w http.ResponseWriter, r *http.Request) {
+	render.RenderTemplates(w, "make-reservation.page.html", &models.TemplateData{})
+}
+
+//SingleBed renders the room page
+func (m *Repository) SingleBed(w http.ResponseWriter, r *http.Request) {
+	render.RenderTemplates(w, "single-bed.page.html", &models.TemplateData{})
+}
+
+//DoubleBed renders the room page.
+func (m *Repository) DoubleBed(w http.ResponseWriter, r *http.Request) {
+	render.RenderTemplates(w, "double-bed.page.html", &models.TemplateData{})
+}
+
+//SearchAvailability renders the search availibity page.
+func (m *Repository) SearchAvailability(w http.ResponseWriter, r *http.Request) {
+	render.RenderTemplates(w, "search-availability.page.html", &models.TemplateData{})
+}
+
+//ContactUs renders the contact page.
+func (m *Repository) ContactUs(w http.ResponseWriter, r *http.Request) {
+	render.RenderTemplates(w, "contact.page.html", &models.TemplateData{})
+}

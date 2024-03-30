@@ -28,6 +28,11 @@ func routesChi(app *config.AppConfig) http.Handler {
 
 	mux.Get("/", handlers.Repo.Home)
 	mux.Get("/about", handlers.Repo.About)
+	mux.Get("/single-bed", handlers.Repo.SingleBed)
+	mux.Get("/double-bed", handlers.Repo.DoubleBed)
+	mux.Get("/search-availability", handlers.Repo.SearchAvailability)
+	mux.Get("/contact", handlers.Repo.ContactUs)
+	mux.Get("/make-reservation", handlers.Repo.Reservation)
 
 	return mux
 }
