@@ -1,5 +1,46 @@
 {{template "base" .}}
 
 {{define "content"}}
-    
+<div class="container">
+
+    <div class="row">
+        <div class="col">
+            <h1 class="mt-5">Search for availability</h1>
+            <form action="" method="get" novalidate class="needs-validation">
+
+                <!-- <div class="form-group">
+                <label for="start_date">Starting Date</label>
+                <input required type="date" class="form-control" id="start_date" name="start_date" aria-describedby="startDateHelp" placeholder="Enter email">
+                <small id="startDateHelp" class="form-text text-muted">Choose you starting date in the form of DD-MM-YYYY.</small>
+              </div>
+              <div class="form-group">
+                <label for="end_date">Ending Date</label>
+                <input required type="date" class="form-control" id="end_date" name="end_date" aria-describedby="endDateHelp" placeholder="Enter email">
+                <small id="endDateHelp" class="form-text text-muted">Choose you ending date in the form of DD-MM-YYYY.</small>
+              </div>
+
+              <br> -->
+
+                <div class="form-row">
+                    <div class="col">
+                        <div class="row" id="reservation-dates">
+                            <div class="col">
+                                <input required class="form-control" type="text" name="start" placeholder="Arrival">
+                            </div>
+                            <div class="col">
+                                <input required class="form-control" type="text" name="end" placeholder="Departure">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <hr>
+
+                <button type="submit" class="btn btn-primary">Submit</button>
+
+            </form>
+        </div>
+    </div>
+
+</div>
 {{end}}
