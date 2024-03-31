@@ -12,7 +12,7 @@ import (
 	"github.com/alexedwards/scs/v2"
 )
 
-const portNumber = ":8000"
+const portNumber = ":8080"
 
 var app config.AppConfig
 
