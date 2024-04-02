@@ -5,19 +5,9 @@ import (
 
 	"github.com/Pdv2323/bread-n-breakfast/pkg/config"
 	"github.com/Pdv2323/bread-n-breakfast/pkg/handlers"
-	"github.com/bmizerany/pat"
 	"github.com/go-chi/chi"
 	"github.com/go-chi/chi/middleware"
 )
-
-func routesPat(app *config.AppConfig) http.Handler {
-	mux := pat.New()
-
-	mux.Get("/", http.HandlerFunc(handlers.Repo.Home))
-	mux.Get("/about", http.HandlerFunc(handlers.Repo.About))
-
-	return mux
-}
 
 func routesChi(app *config.AppConfig) http.Handler {
 	mux := chi.NewRouter()
