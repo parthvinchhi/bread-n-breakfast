@@ -19,6 +19,10 @@ var app config.AppConfig
 var session *scs.SessionManager
 
 func main() {
+	// To use static folder
+	fs := http.FileServer(http.Dir("static"))
+	http.Handle("/static/", http.StripPrefix("/static/", fs))
+
 	//Change this to "True" when in production
 	app.InProduction = false
 
