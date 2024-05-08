@@ -32,6 +32,7 @@ func routesChi(app *config.AppConfig) http.Handler {
 	mux.Get("/contact", handlers.Repo.ContactUs)
 
 	mux.Get("/make-reservation", handlers.Repo.Reservation)
+	mux.Post("/make-reservation", handlers.Repo.PostReservation)
 
 	return mux
 }

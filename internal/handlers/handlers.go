@@ -7,6 +7,7 @@ import (
 	"net/http"
 
 	"github.com/Pdv2323/bread-n-breakfast/internal/config"
+	"github.com/Pdv2323/bread-n-breakfast/internal/forms"
 	"github.com/Pdv2323/bread-n-breakfast/internal/models"
 	"github.com/Pdv2323/bread-n-breakfast/internal/render"
 )
@@ -58,6 +59,13 @@ func (m *Repository) About(w http.ResponseWriter, r *http.Request) {
 
 // Reservation renders the make a reservation page and displays form
 func (m *Repository) Reservation(w http.ResponseWriter, r *http.Request) {
+	render.RenderTemplates(w, r, "make-reservation.page.html", &models.TemplateData{
+		Form: forms.New(nil),
+	})
+}
+
+// PostReservation handles the posting of a reservation form
+func (m *Repository) PostReservation(w http.ResponseWriter, r *http.Request) {
 	render.RenderTemplates(w, r, "make-reservation.page.html", &models.TemplateData{})
 }
 
