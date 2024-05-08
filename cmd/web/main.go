@@ -6,9 +6,9 @@ import (
 	"net/http"
 	"time"
 
-	"github.com/Pdv2323/bread-n-breakfast/pkg/config"
-	"github.com/Pdv2323/bread-n-breakfast/pkg/handlers"
-	"github.com/Pdv2323/bread-n-breakfast/pkg/render"
+	"github.com/Pdv2323/bread-n-breakfast/internal/config"
+	"github.com/Pdv2323/bread-n-breakfast/internal/handlers"
+	"github.com/Pdv2323/bread-n-breakfast/internal/render"
 	"github.com/alexedwards/scs/v2"
 )
 
