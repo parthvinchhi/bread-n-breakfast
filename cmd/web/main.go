@@ -1,6 +1,7 @@
 package main
 
 import (
+	"encoding/gob"
 	"fmt"
 	"log"
 	"net/http"
@@ -8,6 +9,7 @@ import (
 
 	"github.com/Pdv2323/bread-n-breakfast/internal/config"
 	"github.com/Pdv2323/bread-n-breakfast/internal/handlers"
+	"github.com/Pdv2323/bread-n-breakfast/internal/models"
 	"github.com/Pdv2323/bread-n-breakfast/internal/render"
 	"github.com/alexedwards/scs/v2"
 )
@@ -19,6 +21,8 @@ var app config.AppConfig
 var session *scs.SessionManager
 
 func main() {
+	//What am I going to store in session
+	gob.Register(models.Reservation{})
 
 	//Change this to "True" when in production
 	app.InProduction = false
