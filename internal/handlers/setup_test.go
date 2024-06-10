@@ -15,6 +15,7 @@ import (
 	"github.com/alexedwards/scs/v2"
 	"github.com/go-chi/chi"
 	"github.com/go-chi/chi/middleware"
+	"github.com/justinas/nosurf"
 )
 
 var app config.AppConfig
@@ -78,6 +79,19 @@ func getRoutes() http.Handler {
 	mux.Get("/reservation-summary", Repo.ReservationSummary)
 
 	return mux
+}
+
+// NoSurf adds CSRF protection to all POST requests
+func NoSurf(next http.Handler) http.Handler {
+	csrfHandler := nosurf.New(next)
+
+	csrfHandler.SetBaseCookie(http.Cookie{
+		HttpOnly: true,
+		Path:     "/",
+		Secure:   app.InProduction,
+		SameSite: http.SameSiteLaxMode,
+	})
+	return csrfHandler
 }
 
 // SessionLoad loads and saves the session on every request
