@@ -15,7 +15,6 @@ import (
 	"github.com/alexedwards/scs/v2"
 	"github.com/go-chi/chi"
 	"github.com/go-chi/chi/middleware"
-	"github.com/justinas/nosurf"
 )
 
 var app config.AppConfig
@@ -38,13 +37,13 @@ func getRoutes() http.Handler {
 
 	app.Session = session
 
-	tc, err := render.CreateTemplateCache()
+	tc, err := CreateTestTemplateCache()
 	if err != nil {
 		log.Fatal("Cannot create template cache")
 
 	}
 	app.TemplateCache = tc
-	app.UseCache = false
+	app.UseCache = true
 
 	repo := NewRepo(&app)
 	NewHandlers(repo)
@@ -56,7 +55,7 @@ func getRoutes() http.Handler {
 	mux := chi.NewRouter()
 
 	mux.Use(middleware.Recoverer)
-	mux.Use(NoSurf)
+	// mux.Use(NoSurf)
 	mux.Use(SessionLoad)
 
 	// To use static folder
@@ -79,19 +78,6 @@ func getRoutes() http.Handler {
 	mux.Get("/reservation-summary", Repo.ReservationSummary)
 
 	return mux
-}
-
-// NoSurf adds CSRF protection on every POST requests
-func NoSurf(next http.Handler) http.Handler {
-	csrfHandler := nosurf.New(next)
-	csrfHandler.SetBaseCookie(http.Cookie{
-		HttpOnly: true,
-		Path:     "/",
-		Secure:   app.InProduction,
-		SameSite: http.SameSiteLaxMode,
-	})
-
-	return csrfHandler
 }
 
 // SessionLoad loads and saves the session on every request
