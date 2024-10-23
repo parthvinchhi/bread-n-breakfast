@@ -1,6 +1,6 @@
 package models
 
-import "github.com/Pdv2323/bread-n-breakfast/internal/forms"
+import "github.com/parthvinchhi/bread-n-breakfast/internal/forms"
 
 //TemplateData will hold the variables that will be used to store data in the template
 type TemplateData struct {

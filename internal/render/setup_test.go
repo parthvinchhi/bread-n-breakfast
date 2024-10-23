@@ -7,8 +7,8 @@ import (
 	"testing"
 	"time"
 
-	"github.com/Pdv2323/bread-n-breakfast/internal/config"
-	"github.com/Pdv2323/bread-n-breakfast/internal/models"
+	"github.com/parthvinchhi/bread-n-breakfast/internal/config"
+	"github.com/parthvinchhi/bread-n-breakfast/internal/models"
 	"github.com/alexedwards/scs/v2"
 )
 

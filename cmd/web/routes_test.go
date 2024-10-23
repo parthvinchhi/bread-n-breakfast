@@ -4,7 +4,7 @@ import (
 	"fmt"
 	"testing"
 
-	"github.com/Pdv2323/bread-n-breakfast/internal/config"
+	"github.com/parthvinchhi/bread-n-breakfast/internal/config"
 	"github.com/go-chi/chi"
 )
 

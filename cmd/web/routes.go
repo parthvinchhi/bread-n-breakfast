@@ -3,8 +3,8 @@ package main
 import (
 	"net/http"
 
-	"github.com/Pdv2323/bread-n-breakfast/internal/config"
-	"github.com/Pdv2323/bread-n-breakfast/internal/handlers"
+	"github.com/parthvinchhi/bread-n-breakfast/internal/config"
+	"github.com/parthvinchhi/bread-n-breakfast/internal/handlers"
 	"github.com/go-chi/chi"
 	"github.com/go-chi/chi/middleware"
 )

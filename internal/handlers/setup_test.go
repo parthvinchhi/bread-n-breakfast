@@ -9,13 +9,13 @@ import (
 	"path/filepath"
 	"time"
 
-	"github.com/Pdv2323/bread-n-breakfast/internal/config"
-	"github.com/Pdv2323/bread-n-breakfast/internal/models"
-	"github.com/Pdv2323/bread-n-breakfast/internal/render"
 	"github.com/alexedwards/scs/v2"
 	"github.com/go-chi/chi"
 	"github.com/go-chi/chi/middleware"
 	"github.com/justinas/nosurf"
+	"github.com/parthvinchhi/bread-n-breakfast/internal/config"
+	"github.com/parthvinchhi/bread-n-breakfast/internal/models"
+	"github.com/parthvinchhi/bread-n-breakfast/internal/render"
 )
 
 var app config.AppConfig

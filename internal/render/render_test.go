@@ -4,7 +4,7 @@ import (
 	"net/http"
 	"testing"
 
-	"github.com/Pdv2323/bread-n-breakfast/internal/models"
+	"github.com/parthvinchhi/bread-n-breakfast/internal/models"
 )
 
 func TestAddDefaultData(t *testing.T) {
