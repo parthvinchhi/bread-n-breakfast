@@ -5,19 +5,22 @@ import (
 	"fmt"
 	"log"
 	"net/http"
+	"os"
 	"time"
 
+	"github.com/alexedwards/scs/v2"
 	"github.com/parthvinchhi/bread-n-breakfast/internal/config"
 	"github.com/parthvinchhi/bread-n-breakfast/internal/handlers"
+	"github.com/parthvinchhi/bread-n-breakfast/internal/helpers"
 	"github.com/parthvinchhi/bread-n-breakfast/internal/models"
 	"github.com/parthvinchhi/bread-n-breakfast/internal/render"
-	"github.com/alexedwards/scs/v2"
 )
 
 const portNumber = ":8088"
 
 var app config.AppConfig
-
+var infoLog *log.Logger
+var errorLog *log.Logger
 var session *scs.SessionManager
 
 func main() {
@@ -44,6 +47,12 @@ func run() error {
 	//Change this to "True" when in production
 	app.InProduction = false
 
+	infoLog = log.New(os.Stdout, "INFO\t", log.Ldate|log.Ltime)
+	app.InfoLog = infoLog
+
+	errorLog = log.New(os.Stdout, "ERROR\t", log.Ldate|log.Ltime|log.Lshortfile)
+	app.ErrorLog = errorLog
+
 	session = scs.New()
 	session.Lifetime = 24 * time.Hour
 	session.Cookie.Persist = true
@@ -64,6 +73,7 @@ func run() error {
 	handlers.NewHandlers(repo)
 
 	render.NewTemplates(&app)
+	helpers.NewHelpers(&app)
 
 	return nil
 }
