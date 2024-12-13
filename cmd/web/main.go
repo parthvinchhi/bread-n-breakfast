@@ -10,6 +10,7 @@ import (
 
 	"github.com/alexedwards/scs/v2"
 	"github.com/parthvinchhi/bread-n-breakfast/internal/config"
+	my_driver "github.com/parthvinchhi/bread-n-breakfast/internal/driver"
 	"github.com/parthvinchhi/bread-n-breakfast/internal/handlers"
 	"github.com/parthvinchhi/bread-n-breakfast/internal/helpers"
 	"github.com/parthvinchhi/bread-n-breakfast/internal/models"
@@ -24,12 +25,14 @@ var errorLog *log.Logger
 var session *scs.SessionManager
 
 func main() {
-	err := run()
+	db, err := run()
 	if err != nil {
 		log.Fatal(err)
 	}
+	defer db.SQL.Close()
 
-	fmt.Printf(fmt.Sprintf("Starting Application on port %s\n", portNumber))
+	fmt.Println(fmt.Sprintf("Starting Application on port %s\n", portNumber))
+	// fmt.Println(fmt.Sprintf("Starting Application on port #{portNumber}"))
 
 	srv := &http.Server{
 		Addr:    portNumber,
@@ -40,7 +43,7 @@ func main() {
 	log.Fatal(err)
 }
 
-func run() error {
+func run() (*my_driver.DB, error) {
 	//What am I going to store in session
 	gob.Register(models.Reservation{})
 
@@ -61,19 +64,27 @@ func run() error {
 
 	app.Session = session
 
+	// Connect to database
+	log.Println("Connecting to database...")
+	db, err := my_driver.ConnectSQL("host=localhost port=5432 dbname=bread-n-breakfast user=postgres password=")
+	if err != nil {
+		log.Fatal("Cannot connect to database! Dying...", err)
+	}
+	log.Println("Connected to database")
+
 	tc, err := render.CreateTemplateCache()
 	if err != nil {
 		log.Fatal("Cannot create template cache")
-		return err
+		return nil, err
 	}
 	app.TemplateCache = tc
 	app.UseCache = false
 
-	repo := handlers.NewRepo(&app)
+	repo := handlers.NewRepo(&app, db)
 	handlers.NewHandlers(repo)
 
 	render.NewTemplates(&app)
 	helpers.NewHelpers(&app)
 
-	return nil
+	return db, nil
 }

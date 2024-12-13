@@ -7,10 +7,13 @@ import (
 	"net/http"
 
 	"github.com/parthvinchhi/bread-n-breakfast/internal/config"
+	my_driver "github.com/parthvinchhi/bread-n-breakfast/internal/driver"
 	"github.com/parthvinchhi/bread-n-breakfast/internal/forms"
 	"github.com/parthvinchhi/bread-n-breakfast/internal/helpers"
 	"github.com/parthvinchhi/bread-n-breakfast/internal/models"
 	"github.com/parthvinchhi/bread-n-breakfast/internal/render"
+	"github.com/parthvinchhi/bread-n-breakfast/internal/repository"
+	dbrepo "github.com/parthvinchhi/bread-n-breakfast/internal/repository/db-repo"
 )
 
 // Repo is the repository used by the handlers
@@ -19,12 +22,14 @@ var Repo *Repository
 // Repository is a repository type
 type Repository struct {
 	App *config.AppConfig
+	DB  repository.DatabaseRepo
 }
 
 // NewRepo creates a new repository
-func NewRepo(a *config.AppConfig) *Repository {
+func NewRepo(a *config.AppConfig, db *my_driver.DB) *Repository {
 	return &Repository{
 		App: a,
+		DB:  dbrepo.NewPostgresRepo(db.SQL, a),
 	}
 }
 
