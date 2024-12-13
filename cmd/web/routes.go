@@ -3,10 +3,10 @@ package main
 import (
 	"net/http"
 
-	"github.com/parthvinchhi/bread-n-breakfast/internal/config"
-	"github.com/parthvinchhi/bread-n-breakfast/internal/handlers"
 	"github.com/go-chi/chi"
 	"github.com/go-chi/chi/middleware"
+	"github.com/parthvinchhi/bread-n-breakfast/internal/config"
+	"github.com/parthvinchhi/bread-n-breakfast/internal/handlers"
 )
 
 func routesChi(app *config.AppConfig) http.Handler {
@@ -28,6 +28,7 @@ func routesChi(app *config.AppConfig) http.Handler {
 	mux.Get("/search-availability", handlers.Repo.SearchAvailability)
 	mux.Post("/search-availability", handlers.Repo.PostSearchAvailability)
 	mux.Post("/search-availability-json", handlers.Repo.AvailabilityJSON)
+	mux.Get("/choose-room/{id}",handlers.Repo.ChooseRoom)
 
 	mux.Get("/contact", handlers.Repo.ContactUs)
 

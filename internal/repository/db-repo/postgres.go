@@ -2,7 +2,6 @@ package dbrepo
 
 import (
 	"context"
-	"log"
 	"time"
 
 	"github.com/parthvinchhi/bread-n-breakfast/internal/models"
@@ -105,12 +104,13 @@ func (m *postgresDBRepo) SearchAvailabilityForAllRooms(start, end time.Time) ([]
 			r.id, r.room_name
 		from
 			rooms r
-		where r.id not in
-		(select room_id from room_restrictions rr where $1 < rr.end_date and $2 > rr.start_date)`
+		where r.id not in 
+		(select room_id from room_restrictions rr where $1 < rr.end_date and $2 > rr.start_date);
+		`
 
 	rows, err := m.DB.QueryContext(ctx, query, start, end)
 	if err != nil {
-		return nil, err
+		return rooms, err
 	}
 
 	for rows.Next() {
@@ -127,7 +127,7 @@ func (m *postgresDBRepo) SearchAvailabilityForAllRooms(start, end time.Time) ([]
 	}
 
 	if err := rows.Err(); err != nil {
-		log.Fatal("Error scanning rows:", err)
+		return rooms, err
 	}
 
 	return rooms, nil
