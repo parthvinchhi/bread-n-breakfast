@@ -71,34 +71,41 @@ func Templates(w http.ResponseWriter, r *http.Request, tmpl string, td *models.T
 func CreateTemplateCache() (map[string]*template.Template, error) {
 	myCache := map[string]*template.Template{}
 
+	fmt.Println("Path to templates:", pathToTemplates)
+
 	// pages, err := filepath.Glob("/home/vinchhi-parth/Desktop/Git - Golang/learn-web-dev/templates/*.page.html")
 	pages, err := filepath.Glob(fmt.Sprintf("%s/*.page.html", pathToTemplates))
 	if err != nil {
-		return myCache, err
+		return myCache, fmt.Errorf("error finding page templates: %w", err)
+	}
+
+	if len(pages) == 0 {
+		return myCache, fmt.Errorf("no page templates found in path: %s", pathToTemplates)
 	}
 
 	for _, page := range pages {
 		name := filepath.Base(page)
 		ts, err := template.New(name).Funcs(functions).ParseFiles(page)
 		if err != nil {
-			return myCache, err
+			return myCache, fmt.Errorf("error parsing page template %s: %w", page, err)
 		}
 
 		// matches, err := filepath.Glob("/home/vinchhi-parth/Desktop/Git - Golang/learn-web-dev/templates/*.layout.html")
 		matches, err := filepath.Glob(fmt.Sprintf("%s/*.layout.html", pathToTemplates))
 		if err != nil {
-			return myCache, err
+			return myCache, fmt.Errorf("error finding layout templates: %w", err)
 		}
 
 		if len(matches) > 0 {
 			// ts, err = ts.ParseGlob("/home/vinchhi-parth/Desktop/Git - Golang/learn-web-dev/templates/*.layout.html")
 			ts, err = ts.ParseGlob(fmt.Sprintf("%s/*.layout.html", pathToTemplates))
 			if err != nil {
-				return myCache, err
+				return myCache, fmt.Errorf("error parsing layout templates: %w", err)
 			}
 		}
 
 		myCache[name] = ts
+		fmt.Printf("Template cached: %s\n", name)
 	}
 
 	return myCache, nil
