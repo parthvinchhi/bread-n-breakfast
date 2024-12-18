@@ -3,42 +3,42 @@
 {{define "content"}}
 <div class="container">
 
-    <div class="row">
-        <div class="col">
-            <img src="/static/images/marjors-suite.png" class="img-fluid img-thumbnail mx-auto d-block room-image"
-                alt="Double Bed Suites">
-        </div>
+  <div class="row">
+    <div class="col">
+      <img src="/static/images/marjors-suite.png" class="img-fluid img-thumbnail mx-auto d-block room-image"
+        alt="Double Bed Suites">
     </div>
+  </div>
 
-    <div class="row">
-        <div class="col">
-            <h1 class="text-center mt-4">Single Bed Suites</h1>
-            <p>
-                This is some text. This is some text. This is some text. This is some text. This is some text.
-                This is some text. This is some text. This is some text. This is some text. This is some text.
-                This is some text. This is some text. This is some text. This is some text. This is some text.
-                This is some text. This is some text. This is some text. This is some text. This is some text.
-                This is some text. This is some text. This is some text. This is some text. This is some text.
-            </p>
-        </div>
+  <div class="row">
+    <div class="col">
+      <h1 class="text-center mt-4">Single Bed Suites</h1>
+      <p>
+        This is some text. This is some text. This is some text. This is some text. This is some text.
+        This is some text. This is some text. This is some text. This is some text. This is some text.
+        This is some text. This is some text. This is some text. This is some text. This is some text.
+        This is some text. This is some text. This is some text. This is some text. This is some text.
+        This is some text. This is some text. This is some text. This is some text. This is some text.
+      </p>
     </div>
+  </div>
 
-    <div class="row">
-        <div class="col text-center">
-            <a id="check-availability-button" href="#!" class="btn btn-success">Check Availability</a>
-        </div>
+  <div class="row">
+    <div class="col text-center">
+      <a id="check-availability-button" href="#!" class="btn btn-success">Check Availability</a>
     </div>
+  </div>
 
 </div>
 {{end}}
 
 {{define "js"}}
 <script>
-    document.getElementById("check-availability-button").addEventListener("click", function () {
-        // notify("This is the success alert", "warning")
-        // notifyModal("title", "<em>Hello world</em>", "success", "My text for the button!"); 
+  document.getElementById("check-availability-button").addEventListener("click", function () {
+    // notify("This is the success alert", "warning")
+    // notifyModal("title", "<em>Hello world</em>", "success", "My text for the button!"); 
 
-        let html = `
+    let html = `
           <form id="check-availability-form" action="" method="post" novalidate class="needs-validation">
             <div class="row">
               <div class="col">
@@ -55,41 +55,61 @@
           </form>
           `
 
-        attention.custom({ 
-          msg: html,
-          title: "Choose your dates",
+    attention.custom({
+      msg: html,
+      title: "Choose your dates",
 
-          willOpen: () => {
-            const elem = document.getElementById("resevation-dates-modal");
-            const rp = new DateRangePicker(elem, {
-              format: "dd-mm-yyyy",
-              showOnFocus: true,
-            })
-          },
+      willOpen: () => {
+        const elem = document.getElementById("resevation-dates-modal");
+        const rp = new DateRangePicker(elem, {
+          format: "dd-mm-yyyy",
+          showOnFocus: true,
+          minDate: new Date(),
+        })
+      },
 
-          didOpen: () => {
-            document.getElementById("start").removeAttribute("disabled");
-            document.getElementById("end").removeAttribute("disabled");
-          },
+      didOpen: () => {
+        document.getElementById("start").removeAttribute("disabled");
+        document.getElementById("end").removeAttribute("disabled");
+      },
 
-          callback: function (result) {
-            console.log("called!");
+      callback: function (result) {
+        console.log("called!");
 
-            let form = document.getElementById("check-availability-form");
-            let formData = new FormData(form);
-            formData.append("csrf_token", "{{.CSRFToken}}");
+        let form = document.getElementById("check-availability-form");
+        let formData = new FormData(form);
+        formData.append("csrf_token", "{{.CSRFToken}}");
+        formData.append("room_id", "1");
 
-            fetch('/search-availability-json', {
-              method: "post",
-              body: formData,
-            })
-              .then(response=>response.json())
-              .then(data => {
-                console.log(data)
+        fetch('/search-availability-json', {
+          method: "post",
+          body: formData,
+        })
+          .then(response => response.json())
+          .then(data => {
+            if (data.ok) {
+              attention.custom({
+                icon: 'success',
+                showConfirmButton: false,
+                msg: '<p> Room is available </p>'
+                  + '<p><a href="/book-room?id='
+                  + data.room_id
+                  + '&s='
+                  + data.start_date
+                  + '&e='
+                  + data.end_date
+                  + '" class="btn btn-primary">'
+                  + 'Book Now!</a></p>',
               })
-          }
-        });
-    })
+            } else {
+              attention.error({
+                msg: "No Availability",
+              })
+            }
+          })
+      }
+    });
+  })
 
 
 </script>

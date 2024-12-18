@@ -28,7 +28,8 @@ func routesChi(app *config.AppConfig) http.Handler {
 	mux.Get("/search-availability", handlers.Repo.SearchAvailability)
 	mux.Post("/search-availability", handlers.Repo.PostSearchAvailability)
 	mux.Post("/search-availability-json", handlers.Repo.AvailabilityJSON)
-	mux.Get("/choose-room/{id}",handlers.Repo.ChooseRoom)
+	mux.Get("/choose-room/{id}", handlers.Repo.ChooseRoom)
+	mux.Get("/book-room/{id}", handlers.Repo.BookRoom)
 
 	mux.Get("/contact", handlers.Repo.ContactUs)
 
