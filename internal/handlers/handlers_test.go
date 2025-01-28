@@ -12,10 +12,10 @@ import (
 	"github.com/parthvinchhi/bread-n-breakfast/internal/models"
 )
 
-type postData struct {
-	key   string
-	value string
-}
+// type postData struct {
+// 	key   string
+// 	value string
+// }
 
 var theTests = []struct {
 	name               string
@@ -29,17 +29,6 @@ var theTests = []struct {
 	{"db", "/single-bed", "GET", 200},
 	{"sa", "/search-availability", "GET", 200},
 	{"contact", "/contact", "GET", 200},
-
-	// {"post-search-availability", "/search-availability", "POST", []postData{
-	// 	{key: "start", value: "01-01-2020"},
-	// 	{key: "end", value: "02-01-2020"},
-	// }, http.StatusOK},
-	// {"post-make-reservation", "/make-reservation", "POST", []postData{
-	// 	{key: "first_name", value: "Parth"},
-	// 	{key: "last_name", value: "Vinchhi"},
-	// 	{key: "email", value: "Parth@gmail.com"},
-	// 	{key: "phone", value: "2323423453"},
-	// }, http.StatusOK},
 }
 
 func TestHandlers(t *testing.T) {
