@@ -205,10 +205,11 @@ func (m *Repository) PostReservation(w http.ResponseWriter, r *http.Request) {
 	`, reservation.FirstName, reservation.StartDate.Format("02-01-2006"), reservation.EndDate.Format("02-01-2006"))
 
 	msg := models.MailData{
-		To:      reservation.Email,
-		From:    "me@here.com",
-		Subject: "Reservation Confirmation",
-		Content: htmlMsg,
+		To:       reservation.Email,
+		From:     "me@here.com",
+		Subject:  "Reservation Confirmation",
+		Content:  htmlMsg,
+		Template: "basic.html",
 	}
 
 	m.App.MailChan <- msg
@@ -220,10 +221,11 @@ func (m *Repository) PostReservation(w http.ResponseWriter, r *http.Request) {
 		`, reservation.Room.RoomName, reservation.StartDate.Format("02-01-2006"), reservation.EndDate.Format("02-01-2006"))
 
 	msg = models.MailData{
-		To:      reservation.Email,
-		From:    "me@here.com",
-		Subject: "Reservation Confirmation",
-		Content: htmlMsg,
+		To:       reservation.Email,
+		From:     "me@here.com",
+		Subject:  "Reservation Confirmation",
+		Content:  htmlMsg,
+		Template: "basic.html",
 	}
 
 	m.App.MailChan <- msg
