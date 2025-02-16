@@ -7,13 +7,16 @@ import (
 	"html/template"
 	"net/http"
 	"path/filepath"
+	"time"
 
 	"github.com/justinas/nosurf"
 	"github.com/parthvinchhi/bread-n-breakfast/internal/config"
 	"github.com/parthvinchhi/bread-n-breakfast/internal/models"
 )
 
-var functions = template.FuncMap{}
+var functions = template.FuncMap{
+	"humanDate": HumanDate,
+}
 
 var app *config.AppConfig
 
@@ -24,12 +27,19 @@ func NewRenderer(a *config.AppConfig) {
 	app = a
 }
 
+// HumanDate returns time in DD-MM-YYYY format
+func HumanDate(t time.Time) string {
+	return t.Format("02-01-2006")
+}
+
 func AddDefaultData(td *models.TemplateData, r *http.Request) *models.TemplateData {
-	td.Flash = app.Session.PopString(r.Context(), "flash")
+	td.Flash = app.Session.PopString(r.Context(), "success")
 	td.Warning = app.Session.PopString(r.Context(), "warning")
 	td.Error = app.Session.PopString(r.Context(), "error")
-
 	td.CSRFToken = nosurf.Token(r)
+	if app.Session.Exists(r.Context(), "user_id") {
+		td.IsAuthenticated = 1
+	}
 	return td
 }
 
@@ -47,7 +57,6 @@ func Templates(w http.ResponseWriter, r *http.Request, tmpl string, td *models.T
 
 	t, ok := tc[tmpl]
 	if !ok {
-		// log.Fatalln("Could not get template.")
 		return errors.New("can't get template from cache")
 	}
 
@@ -70,8 +79,6 @@ func Templates(w http.ResponseWriter, r *http.Request, tmpl string, td *models.T
 // CreateTemplateCache creates a template cache as a map
 func CreateTemplateCache() (map[string]*template.Template, error) {
 	myCache := map[string]*template.Template{}
-
-	fmt.Println("Path to templates:", pathToTemplates)
 
 	// pages, err := filepath.Glob("/home/vinchhi-parth/Desktop/Git - Golang/learn-web-dev/templates/*.page.html")
 	pages, err := filepath.Glob(fmt.Sprintf("%s/*.page.html", pathToTemplates))
@@ -105,7 +112,6 @@ func CreateTemplateCache() (map[string]*template.Template, error) {
 		}
 
 		myCache[name] = ts
-		fmt.Printf("Template cached: %s\n", name)
 	}
 
 	return myCache, nil

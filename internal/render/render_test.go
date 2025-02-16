@@ -15,7 +15,7 @@ func TestAddDefaultData(t *testing.T) {
 		t.Error(err)
 	}
 
-	session.Put(r.Context(), "flash", "123")
+	session.Put(r.Context(), "success", "123")
 
 	result := AddDefaultData(&td, r)
 

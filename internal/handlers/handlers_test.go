@@ -12,11 +12,6 @@ import (
 	"github.com/parthvinchhi/bread-n-breakfast/internal/models"
 )
 
-// type postData struct {
-// 	key   string
-// 	value string
-// }
-
 var theTests = []struct {
 	name               string
 	url                string

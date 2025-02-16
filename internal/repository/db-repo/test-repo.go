@@ -49,3 +49,22 @@ func (m *testDBRepo) GetRoomById(id int) (models.Room, error) {
 
 	return room, nil
 }
+
+func (m *testDBRepo) GetUserById(id int) (models.User, error) {
+	var u models.User
+
+	return u, nil
+}
+
+func (m *testDBRepo) UpdateUser(u models.User) error {
+	return nil
+}
+
+func (m *testDBRepo) Authenticate(email, testPassword string) (int, string, error) {
+	return 1, "", nil
+}
+
+func (m *testDBRepo) AllReservations() ([]models.Reservation, error) {
+	var reservations []models.Reservation
+	return reservations, nil
+}
