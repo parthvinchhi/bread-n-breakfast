@@ -15,7 +15,6 @@ func routesChi(app *config.AppConfig) http.Handler {
 	mux.Use(middleware.Recoverer)
 	mux.Use(NoSurf)
 	mux.Use(SessionLoad)
-	// mux.Use(Auth)
 
 	// To use static folder
 	fileServer := http.FileServer(http.Dir("./static/"))
@@ -49,6 +48,11 @@ func routesChi(app *config.AppConfig) http.Handler {
 		mux.Get("/reservations-new", handlers.Repo.AdminNewReservations)
 		mux.Get("/reservations-all", handlers.Repo.AdminAllReservations)
 		mux.Get("/reservations-calendar", handlers.Repo.AdminReservationsCalendar)
+		mux.Get("/process-reservation/{src}/{id}", handlers.Repo.AdminProcessReservation)
+		mux.Get("/delete-reservation/{src}/{id}", handlers.Repo.AdminDeleteReservation)
+
+		mux.Get("/reservations/{src}/{id}", handlers.Repo.AdminShowReservations)
+		mux.Post("/reservations/{src}/{id}", handlers.Repo.AdminPostShowReservations)
 	})
 
 	return mux

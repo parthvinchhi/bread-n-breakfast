@@ -156,6 +156,10 @@
     {{end}}
 
     {{with .Flash}}
+    notify("{{.}}", "flash")
+    {{end}}
+
+    {{with .Flash}}
     notify("{{.}}", "success")
     {{end}}
 

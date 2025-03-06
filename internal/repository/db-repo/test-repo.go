@@ -69,8 +69,29 @@ func (m *testDBRepo) AllReservations() ([]models.Reservation, error) {
 	return reservations, nil
 }
 
-// AllNewReservations returns a slice of all the reservations
 func (m *testDBRepo) AllNewReservations() ([]models.Reservation, error) {
 	var reservations []models.Reservation
 	return reservations, nil
+}
+
+func (m *testDBRepo) GetReservationById(id int) (models.Reservation, error) {
+	var reservations models.Reservation
+	return reservations, nil
+}
+
+func (m *testDBRepo) UpdateReservations(u models.Reservation) error {
+	return nil
+}
+
+func (m *testDBRepo) DeleteReservation(id int) error {
+	return nil
+}
+
+func (m *testDBRepo) UpdateProcessedForReservation(id, processed int) error {
+	return nil
+}
+
+func (m *testDBRepo) AllRooms() ([]models.Room, error) {
+	var rooms []models.Room
+	return rooms, nil
 }
