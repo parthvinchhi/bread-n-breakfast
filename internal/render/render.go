@@ -29,8 +29,8 @@ func Iterate(count int) []int {
 	var i int
 	var items []int
 
-	for i = 1; i < count; i++ {
-		items = append(items, i)
+	for i = 0; i < count; i++ {
+		items = append(items, i+1)
 	}
 	return items
 }

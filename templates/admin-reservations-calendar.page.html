@@ -17,17 +17,17 @@ Reservations Calendar
     </div>
     <div class="d-flex justify-content-between mt-3">
         <div>
-            <a href="/admin/reservations-calendar?&y={{index .StringMap " last_month_year"}}&m={{index
-                .StringMap "last_month" }}" class="btn btn-sm btn-outline-secondary">&lt;&lt;</a>
+            <a href="/admin/reservations-calendar?&y={{index .StringMap "last_month_year"}}&m={{index
+                .StringMap "last_month"}}" class="btn btn-sm btn-outline-secondary">&lt;&lt;</a>
         </div>
         <div>
-            <a href="/admin/reservations-calendar?&y={{index .StringMap " next_month_year"}}&m={{index
-                .StringMap "next_month" }}" class="btn btn-sm btn-outline-secondary">&gt;&gt;</a>
+            <a href="/admin/reservations-calendar?&y={{index .StringMap "next_month_year"}}&m={{index
+                .StringMap "next_month"}}" class="btn btn-sm btn-outline-secondary">&gt;&gt;</a>
         </div>
     </div>
 
     {{range $rooms}}
-    {{$room.Id := .Id}}
+    {{$roomsId := .Id}}
     <h4 class="mt-4">{{.RoomName}}</h4>
     <div class="table-response">
         <table class="table table-bordered table-sm">
