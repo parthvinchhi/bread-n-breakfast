@@ -2,6 +2,7 @@ package main
 
 import (
 	"encoding/gob"
+	"flag"
 	"fmt"
 	"log"
 	"net/http"
@@ -65,11 +66,23 @@ func run() (*my_driver.DB, error) {
 	gob.Register(models.Restriction{})
 	gob.Register(map[string]int{})
 
+	inProduction := flag.Bool("production", true, "Application in Production")
+	useCache := flag.Bool("cache", true, "Use Template Cache")
+	dbName := flag.String("dbname", "", "Database name")
+	dbHost := flag.String("dbhost", "localhost", "Database host")
+	dbUser := flag.String("dbuser", "", "Database user")
+	dbPass := flag.String("dbpass", "", "Database pass")
+	dbPort := flag.String("dbport", "5432", "Database port")
+	dbSSL := flag.String("dbssl", "disable", "Database ssl settings (disable, prefer, required)")
+
+	flag.Parse()
+
 	mailChan := make(chan models.MailData)
 	app.MailChan = mailChan
 
 	//Change this to "True" when in production
-	app.InProduction = false
+	app.InProduction = *inProduction
+	app.UseCache = *useCache
 
 	infoLog = log.New(os.Stdout, "INFO\t", log.Ldate|log.Ltime)
 	app.InfoLog = infoLog
@@ -87,7 +100,9 @@ func run() (*my_driver.DB, error) {
 
 	// Connect to database
 	log.Println("Connecting to database...")
-	db, err := my_driver.ConnectSQL("host=localhost port=5432 dbname=bread-n-breakfast user=postgres password=123 sslmode=disable")
+	connectionString := fmt.Sprintf("host=%s port=%s dbname=%s user=%s password=%s sslmode=%s", *dbHost, *dbPort, *dbName, *dbUser, *dbPass, *dbSSL)
+	db, err := my_driver.ConnectSQL(connectionString)
+	// db, err := my_driver.ConnectSQL("host=localhost port=5432 dbname=bread-n-breakfast user=postgres password=123 sslmode=disable")
 	// db, err := my_driver.ConnectSQL("host=localhost port=5432 dbname=bread-n-breakfast user=postgres password= sslmode=disable")
 	if err != nil {
 		log.Fatal("Cannot connect to database! Dying...", err)
@@ -99,8 +114,8 @@ func run() (*my_driver.DB, error) {
 		log.Fatal("Cannot create template cache", err)
 		return nil, err
 	}
+
 	app.TemplateCache = tc
-	app.UseCache = false
 
 	repo := handlers.NewRepo(&app, db)
 	handlers.NewHandlers(repo)
